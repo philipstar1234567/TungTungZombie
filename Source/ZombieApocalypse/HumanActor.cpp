@@ -24,14 +24,15 @@ void AHumanActor::Tick(float DeltaTime)
 
 }
 
-bool AHumanActor::GetIsZombie() const
+EZombieState AHumanActor::GetZombieStatus() const
 {
-	return bIsZombie;
+	return ZombieStatus;
 }
 
 void AHumanActor::Zombify()
 {
-	bIsZombie = true;
+	// Starts the bite process
+	ZombieStatus = EZombieState::Bitten;
 
 	// Change skeletal mesh here
 

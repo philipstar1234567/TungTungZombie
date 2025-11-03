@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ZombieStatus.h"
 #include "HumanActor.generated.h"
+
+
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API AHumanActor : public AActor
@@ -12,22 +15,23 @@ class ZOMBIEAPOCALYPSE_API AHumanActor : public AActor
 	GENERATED_BODY()
 	
 public:
+	
 	// Sets default values for this actor's properties
 	AHumanActor();
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(BlueprintReadOnly, category = "ZombieSim")
-	bool bIsZombie = false;
+	EZombieState ZombieStatus = EZombieState::Human;
 	
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	// Returns whether this actor is a zombie or not.
-	bool GetIsZombie() const;
-	// Turns this actor into a zombie.
+	// Returns the status of the zombie infection in this actor
+	EZombieState GetZombieStatus() const;
+	// Bites this human
 	void Zombify();
 	
 
