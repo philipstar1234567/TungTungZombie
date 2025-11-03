@@ -2,6 +2,7 @@
 
 
 #include "HumanActor.h"
+#include "CoreGlobals.h"
 
 // Sets default values
 AHumanActor::AHumanActor()
@@ -29,13 +30,19 @@ EZombieState AHumanActor::GetZombieStatus() const
 	return ZombieStatus;
 }
 
-void AHumanActor::Zombify()
+void AHumanActor::Bitten()
 {
+	if (ZombieStatus != EZombieState::Human)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't a human was attempted to be bitten!"));
+		return;
+	}
+
 	// Starts the bite process
 	ZombieStatus = EZombieState::Bitten;
 
-	// Change skeletal mesh here
-
+	// Change skeletal mesh in BP
+	IAmBitten();
 	
 }
 

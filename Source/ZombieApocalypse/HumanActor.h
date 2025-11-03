@@ -13,6 +13,7 @@ UCLASS()
 class ZOMBIEAPOCALYPSE_API AHumanActor : public AActor
 {
 	GENERATED_BODY()
+	FTimerHandle TimerHandle;
 	
 public:
 	
@@ -25,6 +26,13 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, category = "ZombieSim")
 	EZombieState ZombieStatus = EZombieState::Human;
+
+	//Implement in BP to change mesh to bitten
+	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
+	void IAmBitten();
+	//Implement in BP to change mesh to zombie
+	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
+	void IAmAZombie();
 	
 public:
 	// Called every frame
@@ -33,7 +41,10 @@ public:
 	EZombieState GetZombieStatus() const;
 	// Bites this human
 	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
-	void Zombify();
+	void Bitten();
+
+	
+	
 	
 
 };
