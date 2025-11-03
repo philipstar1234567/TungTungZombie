@@ -24,3 +24,17 @@ void AHumanActor::Tick(float DeltaTime)
 
 }
 
+bool AHumanActor::GetIsZombie() const
+{
+	return bIsZombie;
+}
+
+void AHumanActor::Zombify()
+{
+	bIsZombie = true;
+
+	// Change skeletal mesh here
+
+	
+}
+
