@@ -1,10 +1,10 @@
 // Copyright University of Inland Norway
 
+#include "SimulationLogic.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <iomanip>
-#include "SimulationLogic.h"
 
 
 SimulationLogic::~SimulationLogic()
@@ -55,9 +55,10 @@ SimulationLogic::SimulationLogic()
         {2.000f, 1.300f}
     };
 
+    /*
     // Forward declarations -> functions after int main()
     float graph_lookup(float xIn);
     float conveyor_content();
     void write_row(int t, std::ofstream &csv);
-
+    */
 }
