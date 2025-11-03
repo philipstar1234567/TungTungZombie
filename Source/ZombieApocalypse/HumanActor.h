@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ZombieStatus.h"
+#include "ZombieStatus.h" // For the enum values
 #include "HumanActor.generated.h"
 
 
@@ -23,7 +23,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(BlueprintReadOnly, category = "ZombieSim")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, category = "ZombieSim")
 	EZombieState ZombieStatus = EZombieState::Human;
 	
 public:
@@ -32,6 +32,7 @@ public:
 	// Returns the status of the zombie infection in this actor
 	EZombieState GetZombieStatus() const;
 	// Bites this human
+	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
 	void Zombify();
 	
 
