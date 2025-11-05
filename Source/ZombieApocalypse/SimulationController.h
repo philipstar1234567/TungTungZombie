@@ -47,7 +47,7 @@ public:
 	// ----- TIME SPECS -----
 	const int STARTTIME {0};        // Simulation StartTime
 	const int STOPTIME  {120};      // By this time all simulations should be finished
-	const float DT      {1.f};      // DeltaTime for the simulation, 1 == 1 day steps
+	const float DT      {1.0f};      // DeltaTime for the simulation, 1 == 1 day steps
 
 	// ----- CONSTANTS / INITIALIZATION -----
 	const float days_to_become_infected_from_bite {15.f};   // Days
@@ -69,7 +69,7 @@ public:
 
 	// How long each time step is in Unreal, in seconds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Simulation Variables")
-	float SimulationStepTime{ 1.f };
+	float SimulationStepTime{ 1.0f };	
 
 	// Turn on/off debug printing to the Output Log
 	UPROPERTY(EditAnywhere, Category = "Simulation Variables")
