@@ -196,7 +196,6 @@ void ASimulationController::Tick(float DeltaTime)
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
     // ----- SIMULATION LOOP -----
     for (int t = STARTTIME; t < STOPTIME; t += (int)DT)
     {
@@ -290,8 +289,6 @@ void ASimulationController::Tick(float DeltaTime)
     }
 }
 
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 // Function to read data from Unreal DataTable into the graphPts vector
