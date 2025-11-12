@@ -131,7 +131,7 @@ void ASimulationController::Tick(float DeltaTime)
         // getting_bitten UNIFLOW, but enforce NON-NEGATIVE Susceptible
         float getting_bitten = number_of_bites_from_total_zombies_on_susceptible;
         // Truncate to not exceed available Susceptible this step (Euler non-negative safeguard)
-        getting_bitten = std::min(getting_bitten, floor(Susceptible)); // ensure we don't drive below 0
+        getting_bitten = std::min(getting_bitten, (float)floor(Susceptible)); // ensure we don't drive below 0
 
         // --- Conveyor mechanics for Bitten ---
         // 1) Progress existing batches and compute raw outflow (people exiting conveyor)
