@@ -73,7 +73,6 @@ Plugins/**/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 /.idea
-/.vscode
 .ignore
-Makefile
-ZombieApocalypse.code-workspace
+/.vscode
+ZombieApocalypse.uproject.DotSettings.user
