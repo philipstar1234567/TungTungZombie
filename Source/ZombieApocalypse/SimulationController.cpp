@@ -11,6 +11,9 @@
 ASimulationController::ASimulationController()
 {
     PrimaryActorTick.bCanEverTick = true;
+
+    
+
 }
 
 struct ConveyorBatch
@@ -60,8 +63,8 @@ float ASimulationController::graph_lookup(float xIn)
 float ASimulationController::conveyor_content()
 {
     float sum = 0.0;
-    for (ConveyorBatch &batch : conveyor)
-        sum += batch.amountOfPeople;
+    for (ConveyorBatch &b : conveyor)
+        sum += b.amountOfPeople;
     return sum;
 }
 
@@ -92,20 +95,13 @@ void ASimulationController::Tick(float DeltaTime)
     // If Unreal timestep is reached
     if (AccumulatedTime >= SimulationStepTime)
     {
-        
-        
         AccumulatedTime = 0.f; // Reset accumulator
         UE_LOG(LogTemp, Log, TEXT("SimulationStep"));
-        
+
         //std::cout << "\n***** Day: " << t << " *****\n";
         // --- Calculate auxiliaries (using values at current time t) ---
         Bitten = conveyor_content(); // current conveyor content (people)
         float non_zombie_population = Bitten + Susceptible; // People
-        if (non_zombie_population != 0.f)
-        {
-            TimeStepsFinished++;
-        }
-        
         float population_density = non_zombie_population / land_area; // people/m2
 
         float x = population_density / normal_population_density; // dimensionless
@@ -122,7 +118,7 @@ void ASimulationController::Tick(float DeltaTime)
             std::round(Zombies * number_of_bites_per_zombie_per_day); // People/day
 
         // Avoid division by zero by MAX(non_zombie_population, 1)
-        float denom = std::max(non_zombie_population, 1.f); //GET KRIS TO LOOK AT THIS
+        float denom = std::max(non_zombie_population, 1.f);
         float number_of_bites_from_total_zombies_on_susceptible =
             std::round((Susceptible / denom) * total_bitten_per_day); // People/day
 
@@ -134,11 +130,10 @@ void ASimulationController::Tick(float DeltaTime)
         // getting_bitten UNIFLOW, but enforce NON-NEGATIVE Susceptible
         float getting_bitten = number_of_bites_from_total_zombies_on_susceptible;
         // Truncate to not exceed available Susceptible this step (Euler non-negative safeguard)
-        getting_bitten = std::min(getting_bitten, floor(Susceptible)); // ensure we don't drive below 0 //ASK GROUP ABOUT MIN, AI GOOF?
+        getting_bitten = std::min((double)getting_bitten, floor(Susceptible)); // ensure we don't drive below 0
 
         // --- Conveyor mechanics for Bitten ---
         // 1) Progress existing batches and compute raw outflow (people exiting conveyor)
-
         for (ConveyorBatch &b : conveyor)
         {
             b.remainingDays -= DT;  // update remainingDays
@@ -161,8 +156,8 @@ void ASimulationController::Tick(float DeltaTime)
 
         // 2) Capacity check for new inflow (people)
         float current_content = conveyor_content();
-        float free_cap = std::max(0.f, Bitten_capacity - current_content); //GET HLP HERE
-        float inflow_people = std::max(0.f, std::min(getting_bitten, free_cap)); //AND HERE
+        float free_cap = std::max(0.f, Bitten_capacity - current_content);
+        float inflow_people = std::max(0.f, std::min(getting_bitten, free_cap));
 
         if (inflow_people > 0.f)
             conveyor.push_back(ConveyorBatch{inflow_people, days_to_become_infected_from_bite});
@@ -173,10 +168,10 @@ void ASimulationController::Tick(float DeltaTime)
 
         // --- STOCK UPDATES (Euler) ---
         // Susceptible(t+1) = S(t) - getting_bitten
-        Susceptible = std::max(0.f, Susceptible - getting_bitten); //WHY MULTIPLY BY DT HERE?
+        Susceptible = std::max(0.f, Susceptible - getting_bitten * DT);
 
         // Zombies(t+1) = Z(t) + becoming_infecting
-        Zombies = std::max(0.f, Zombies + becoming_infected); //WHY MULTIPLY BY DT HERE?
+        Zombies = std::max(0.f, Zombies + becoming_infected * DT);
 
         // Bitten stock is already handled implicitly by conveyor vector
         // (content increased by inflow_people, decreased by raw_outflow_people)
@@ -184,14 +179,16 @@ void ASimulationController::Tick(float DeltaTime)
 
         // --- (Optional) derived integer populations, not used further ---
         // float Susceptible_Population = floor(Susceptible);
-        // float Zombie_Population = floor(Zombies);+
+        // float Zombie_Population = floor(Zombies);
 
         std::cout << "Susceptible: " << Susceptible << ", Bitten: " << Bitten << ", Zombies: " << Zombies << "\n";
 
         // Write row for t+DT
         //write_row(t + (int)DT, csvFile);
     }
+}
 
+    /*
     // ----- SIMULATION LOOP -----
     for (int t = STARTTIME; t < STOPTIME; t += (int)DT)
     {
@@ -283,7 +280,8 @@ void ASimulationController::Tick(float DeltaTime)
         // Write row for t+DT
         //write_row(t + (int)DT, csvFile);
     }
-}
+    */
+
 
 // Function to read data from Unreal DataTable into the graphPts vector
 void ASimulationController::ReadDataFromTableToVectors()
@@ -311,3 +309,4 @@ void ASimulationController::ReadDataFromTableToVectors()
        }
     }
 }
+ 
