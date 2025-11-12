@@ -96,9 +96,7 @@ void ASimulationController::Tick(float DeltaTime)
         
         AccumulatedTime = 0.f; // Reset accumulator
         UE_LOG(LogTemp, Log, TEXT("SimulationStep"));
-<<<<<<< Updated upstream
-=======
-
+        
         //std::cout << "\n***** Day: " << t << " *****\n";
         // --- Calculate auxiliaries (using values at current time t) ---
         Bitten = conveyor_content(); // current conveyor content (people)
@@ -192,10 +190,8 @@ void ASimulationController::Tick(float DeltaTime)
 
         // Write row for t+DT
         //write_row(t + (int)DT, csvFile);
->>>>>>> Stashed changes
     }
 
-<<<<<<< Updated upstream
     // ----- SIMULATION LOOP -----
     for (int t = STARTTIME; t < STOPTIME; t += (int)DT)
     {
@@ -289,8 +285,6 @@ void ASimulationController::Tick(float DeltaTime)
     }
 }
 
-=======
->>>>>>> Stashed changes
 // Function to read data from Unreal DataTable into the graphPts vector
 void ASimulationController::ReadDataFromTableToVectors()
 {
