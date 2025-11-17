@@ -2,7 +2,8 @@
 
 
 #include "TargetArea.h"
-#include "Components/BoxComponent.h"
+#include "BoxComponent.h"
+
 
 // Sets default values
 ATargetArea::ATargetArea()

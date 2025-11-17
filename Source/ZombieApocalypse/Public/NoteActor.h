@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Actor.h"
 #include "NoteActor.generated.h"
 
 UCLASS()
