@@ -8,6 +8,11 @@
 #include <vector>
 #include <iomanip>
 
+#include <regex>
+#include <sstream>
+
+#include "IPropertyTable.h"
+
 ASimulationController::ASimulationController()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -81,6 +86,141 @@ void ASimulationController::BeginPlay()
     {
        // Table found, read data into vector
        ReadDataFromTableToVectors();
+    }
+
+    CreateChartTable();
+}
+
+
+void ASimulationController::PopulateDataTableFromChartFile(const FString& inChartFilePath)
+{
+    FChartFileData NewRow;
+
+    std::string FileContentStr{ "" };
+    // Most variable here do not need to live for the duration of the whole program. We can release them from the stack sooner by tightening their scope.
+    // Some of these variables can get relatively sizeable, so it's probably good to not keep them around longer than needed.
+    {
+        std::stringstream FileContent{ "" };
+
+        std::ifstream theFileItself(*inChartFilePath);
+        if (!theFileItself.is_open())
+        {
+            UE_LOG(LogTemp, Error, TEXT("%s says :Failed to open chart file: %s"), TEXT(__FUNCTION__), *inChartFilePath);
+            return;
+        }
+
+        FileContent << theFileItself.rdbuf();
+
+        theFileItself.close();
+
+        FileContentStr = FileContent.str();
+    }
+
+    auto regexCapture = [&FileContentStr](const std::regex& regexPattern) -> std::string
+        {
+            // Regex is pretty cool. You make spells, and they WILL find the target string or sequence. Litteral string voodoo is what this is.
+            std::smatch MatchedPattern;
+            if (std::regex_search(FileContentStr, MatchedPattern, regexPattern))
+            {
+                // We extract the first capture by giving it the 1 index (if we gave it 0, it would fill the string with every possible match, probably makes no difference in this case).
+                return MatchedPattern[1].str();
+            }
+            else
+            {
+                std::cerr << "Failed to find pattern.\n";
+                return "";
+            }
+        };
+
+    auto stoiWithCatches = [](const std::string& stringToTurnIntoInteger) -> int
+        {
+            try
+            {
+                return stoi(stringToTurnIntoInteger);
+            }
+            // stoi throws errors, and if we don't catch them, program will act even weirder. Not like c++ would just let us know about this ofc, but it exists anyways...
+            // So anyways, this error is for strings that are not numbers.
+            catch (const std::invalid_argument& e)
+            {
+                std::cerr << "Error : " << e.what() << std::endl;
+                return -1;
+            }
+            // This one is for numbers above or below the limits of an integer, probably if not in this interval -> [2^-31, 2^31-1]
+            catch (const std::out_of_range& e)
+            {
+                std::cerr << "Error : " << e.what() << std::endl;
+                return -1;
+            }
+        };
+
+    FString SongName;
+    {
+        std::regex SongNamePattern{ "\\[Song\\]\n\\{\n  Name = \"(.{1,50})\"" };
+        std::string SongNameCppString{ regexCapture(SongNamePattern) };
+        SongName = FString(UTF8_TO_TCHAR(SongNameCppString.c_str()));
+    }
+
+    int Resolution{ 0 };
+    {
+        std::regex ResolutionPattern{ "Resolution = (\\d{1,4})" };
+        Resolution = stoiWithCatches(regexCapture(ResolutionPattern));
+    }
+    NewRow.Resolution = Resolution;
+
+    int TimeSignature{ 0 };
+    {
+        std::regex TimeSignaturePattern{ "\\[SyncTrack\\]\n\\{\n  \\d{1,5} = TS (\\d{1,9})" };
+        TimeSignature = stoiWithCatches(regexCapture(TimeSignaturePattern));
+    }
+    NewRow.TimeSignature = TimeSignature;
+
+    int BeatsPerMinute{ 0 };
+    {
+        std::regex BeatsPerMinutePattern{ "\\[SyncTrack\\]\n\\{\n  \\d{1,5} = TS \\d{1,9}\n  0 = B (\\d{1,9})" };
+        BeatsPerMinute = stoiWithCatches(regexCapture(BeatsPerMinutePattern));
+    }
+    NewRow.BeatsPerMinute = BeatsPerMinute;
+
+    std::string NoteContent{ "" };
+    {
+        std::regex NoteContentPattern{ "\\[ExpertSingle\\]\\n\\{\\n([\\s\\S]*?)\n\\}" };
+        NoteContent = regexCapture(NoteContentPattern);
+    }
+    // std::cout << NoteContent << std::endl;
+
+    std::regex linePattern("^\\s*(\\d{3,6})\\s*=\\s*N (\\d{1,5}).*$");
+    for (auto it = std::sregex_iterator(NoteContent.begin(), NoteContent.end(), linePattern); it != std::sregex_iterator(); ++it)
+    {
+        NewRow.NoteMap.Add(stoiWithCatches((*it)[1].str()), stoiWithCatches((*it)[2].str()));
+    }
+
+    AllSongCharts->AddRow(FName(SongName), NewRow);
+}
+
+void ASimulationController::CreateChartTable()
+{
+    //AllSongCharts = NewObject<UDataTable>(this, UDataTable::StaticClass());
+    //There's maybe a more elegant way of doing this but as of right now you need to go the instance of the sim_BP and set the data table to the one from the data table folder
+    AllSongCharts->RowStruct = FChartFileData::StaticStruct();
+
+    if (!AllSongCharts)
+    {
+        UE_LOG(LogTemp, Error, TEXT("%s says :Failed to create the chart table."), TEXT(__FUNCTION__));
+        return;
+    }
+
+    auto SongChartFilesArray = []()
+        {
+            TArray<FString> FoundSongChartFilesArray;
+            FString SongChartFilePath{ FPaths::ProjectContentDir() + TEXT("RythmGameInsideAZombieNightmare/ChartFiles/") };
+            IFileManager::Get().FindFiles(FoundSongChartFilesArray, *SongChartFilePath);
+            return FoundSongChartFilesArray;
+        };
+
+    for (const FString& ChartFilePath : SongChartFilesArray())
+    {
+        FString FilePath{ FPaths::ProjectContentDir() + TEXT("RythmGameInsideAZombieNightmare/ChartFiles/") + ChartFilePath };
+        PopulateDataTableFromChartFile(FilePath);
     }
 }
 
