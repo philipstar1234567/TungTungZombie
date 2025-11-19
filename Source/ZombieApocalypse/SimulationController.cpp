@@ -11,8 +11,6 @@
 #include <regex>
 #include <sstream>
 
-#include "IPropertyTable.h"
-
 ASimulationController::ASimulationController()
 {
     PrimaryActorTick.bCanEverTick = true;
