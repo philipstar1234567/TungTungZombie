@@ -1,17 +1,15 @@
 // Copyright University of Inland Norway
 
 #include "SimulationController.h"
+#include "GameFramework/Actor.h"
 #include <iostream>
 #include  <cmath>
+#include <iomanip>
 #include <algorithm>
 #include <fstream>
 #include <vector>
-#include <iomanip>
-
 #include <regex>
 #include <sstream>
-
-#include "IPropertyTable.h"
 
 ASimulationController::ASimulationController()
 {
@@ -134,12 +132,13 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
 
     auto stoiWithCatches = [](const std::string& stringToTurnIntoInteger) -> int
         {
-            try
+            //try
             {
                 return stoi(stringToTurnIntoInteger);
             }
             // stoi throws errors, and if we don't catch them, program will act even weirder. Not like c++ would just let us know about this ofc, but it exists anyways...
             // So anyways, this error is for strings that are not numbers.
+        /*
             catch (const std::invalid_argument& e)
             {
                 std::cerr << "Error : " << e.what() << std::endl;
@@ -151,6 +150,7 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
                 std::cerr << "Error : " << e.what() << std::endl;
                 return -1;
             }
+        */
         };
 
     FString SongName;

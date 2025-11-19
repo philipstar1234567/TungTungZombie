@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Engine/DataTable.h"
 #include <vector>
+#include "Engine/DataTable.h"
 #include "SimulationController.generated.h"
 
 
