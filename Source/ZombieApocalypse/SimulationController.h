@@ -21,6 +21,27 @@ struct FPopulationDensityEffect : public FTableRowBase
 	float NormalPopulationDensity;
 };
 
+USTRUCT(BlueprintType)
+struct FChartFileData : public FTableRowBase
+{
+
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Resolution;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int TimeSignature;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int BeatsPerMinute;
+
+	/**
+	* @brief Key (first int) is going to be the time, and the second one will be the enum value of a note type.
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<int, int> NoteMap;
+};
 
 
 UCLASS()
@@ -103,4 +124,12 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void PopulateDataTableFromChartFile(const FString& inChartFilePath);
+
+	void CreateChartTable();
+
+public:
+	// Will hold the data tables here.
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Chart Data")
+	UDataTable* AllSongCharts;
 };
