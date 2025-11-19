@@ -9,6 +9,8 @@
 #include "NoteManager.generated.h"
 
 
+class UQuartzClockHandle;
+
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ANoteManager : public AActor
 {

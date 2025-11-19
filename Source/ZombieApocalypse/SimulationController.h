@@ -27,19 +27,19 @@ struct FChartFileData : public FTableRowBase
 
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
 	int Resolution;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
 	int TimeSignature;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
 	int BeatsPerMinute;
 
 	/**
 	* @brief Key (first int) is going to be the time, and the second one will be the enum value of a note type.
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
 	TMap<int, int> NoteMap;
 };
 
@@ -130,6 +130,6 @@ protected:
 
 public:
 	// Will hold the data tables here.
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Chart Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chart Data")
 	UDataTable* AllSongCharts;
 };

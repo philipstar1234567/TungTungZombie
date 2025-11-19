@@ -11,6 +11,8 @@
 #include <regex>
 #include <sstream>
 
+#include "IPropertyTable.h"
+
 ASimulationController::ASimulationController()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -88,6 +90,7 @@ void ASimulationController::BeginPlay()
 
     CreateChartTable();
 }
+
 
 void ASimulationController::PopulateDataTableFromChartFile(const FString& inChartFilePath)
 {
@@ -196,7 +199,8 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
 
 void ASimulationController::CreateChartTable()
 {
-    AllSongCharts = NewObject<UDataTable>(this, UDataTable::StaticClass());
+    //AllSongCharts = NewObject<UDataTable>(this, UDataTable::StaticClass());
+    //There's maybe a more elegant way of doing this but as of right now you need to go the instance of the sim_BP and set the data table to the one from the data table folder
     AllSongCharts->RowStruct = FChartFileData::StaticStruct();
 
     if (!AllSongCharts)
