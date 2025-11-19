@@ -76,3 +76,5 @@ DerivedDataCache/*
 .ignore
 /.vscode
 ZombieApocalypse.uproject.DotSettings.user
+Makefile
+ZombieApocalypse.code-workspace
