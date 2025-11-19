@@ -21,6 +21,27 @@ struct FPopulationDensityEffect : public FTableRowBase
 	float NormalPopulationDensity;
 };
 
+USTRUCT(BlueprintType)
+struct FChartFileData : public FTableRowBase
+{
+
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
+	int Resolution;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
+	int TimeSignature;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
+	int BeatsPerMinute;
+
+	/**
+	* @brief Key (first int) is going to be the time, and the second one will be the enum value of a note type.
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Rhythm Game")
+	TMap<int, int> NoteMap;
+};
 
 
 UCLASS()
@@ -51,7 +72,7 @@ public:
 
 	// ----- CONSTANTS / INITIALIZATION -----
 	const float days_to_become_infected_from_bite {15.f};   // Days
-	const float Bitten_capacity {100.f};                    // Capacity inside conveyor == people at start
+	const float Bitten_capacity {1000.f};                   // Capacity inside conveyor == people at start
 	const float patient_zero {1.0f};                        // Zombies
 	const float CONVERSION_FROM_PEOPLE_TO_ZOMBIES {1.f};    // Conversion constant, always 1
 	const float normal_number_of_bites {1.f};               // People/zombie/day
@@ -103,4 +124,12 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void PopulateDataTableFromChartFile(const FString& inChartFilePath);
+
+	void CreateChartTable();
+
+public:
+	// Will hold the data tables here.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chart Data")
+	UDataTable* AllSongCharts;
 };
