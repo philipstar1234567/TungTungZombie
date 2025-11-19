@@ -105,7 +105,7 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
         std::ifstream theFileItself(*inChartFilePath);
         if (!theFileItself.is_open())
         {
-            //UE_LOG(LogTemp, Error, TEXT("%s says :Failed to open chart file: %s"), TEXT(__FUNCTION__), *inChartFilePath);
+            UE_LOG(LogTemp, Error, TEXT("%s says :Failed to open chart file: %s"), TEXT("ASimulationController::PopulateDataTableFromChartFile"), *inChartFilePath);
             return;
         }
 
