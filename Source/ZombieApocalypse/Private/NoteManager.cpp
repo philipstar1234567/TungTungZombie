@@ -2,6 +2,8 @@
 
 
 #include "NoteManager.h"
+#include "NoteSpawner.h"
+#include "NoteActor.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
