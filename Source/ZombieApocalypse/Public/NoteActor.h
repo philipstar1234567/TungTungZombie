@@ -17,7 +17,7 @@ public:
 	ANoteActor();
 
 protected:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBoxComponent> CollisionBox;
 
 	bool bIsOverlappingHitZoneA;
@@ -39,6 +39,8 @@ protected:
 	void OnKHitKeyPressed();
 	void OnLHitKeyPressed();
 
+	bool IsOverlappingActorWithTag(FName Tag);
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
