@@ -52,6 +52,6 @@ public:
     void StartSong();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rhythm Game")
-	ANoteSpawner* NoteSpawner;
+	TObjectPtr<ANoteSpawner> NoteSpawner;
 
 };
