@@ -10,6 +10,8 @@
 
 
 class UQuartzClockHandle;
+class ANoteSpawner;
+class ANoteActor;
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ANoteManager : public AActor
@@ -27,8 +29,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-public:
+	
     // The beatmap data table for the current song.
     // We can assign our CSV-imported Data Table to this in the editor.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rhythm Game")
@@ -42,5 +43,8 @@ public:
     // A function we can call from our Blueprint to start the song.
     UFUNCTION(BlueprintCallable, Category = "Rhythm Game")
     void StartSong();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rhythm Game")
+	ANoteSpawner* NoteSpawner;
 
 };
