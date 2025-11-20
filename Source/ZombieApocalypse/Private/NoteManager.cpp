@@ -45,22 +45,22 @@ void ANoteManager::SpawnHitboxes()
         UE_LOG(LogTemp, Error, TEXT("Failed to get world."));
         return;
     }
-    AActor* HitBoxA = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, -310, 1300), FRotator::ZeroRotator);
+    AActor* HitBoxA = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, -310, 200), FRotator::ZeroRotator);
     if (HitBoxA)
     {
         HitBoxA->Tags.AddUnique(FName(TEXT("HitZoneA")));
     }
-    AActor* HitBoxS = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, -110, 1300), FRotator::ZeroRotator);
+    AActor* HitBoxS = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, -110, 200), FRotator::ZeroRotator);
     if (HitBoxS)
     {
         HitBoxS->Tags.AddUnique(FName(TEXT("HitZoneS")));
     }
-    AActor* HitBoxK = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, 110, 1300), FRotator::ZeroRotator);
+    AActor* HitBoxK = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, 110, 200), FRotator::ZeroRotator);
     if (HitBoxK)
     {
         HitBoxK->Tags.AddUnique(FName(TEXT("HitZoneK")));
     }
-    AActor* HitBoxL = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, 310, 1300), FRotator::ZeroRotator);
+    AActor* HitBoxL = World->SpawnActor<AActor>(HitBoxZoneClass, FVector(0, 310, 200), FRotator::ZeroRotator);
     if (HitBoxL)
     {
         HitBoxL->Tags.AddUnique(FName(TEXT("HitZoneL")));
