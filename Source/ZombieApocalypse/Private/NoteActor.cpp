@@ -62,7 +62,7 @@ void ANoteActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("COLLISION HAS HAPPENED, WOOHOO"));
+	//UE_LOG(LogTemp, Warning, TEXT("COLLISION HAS HAPPENED, WOOHOO"));
 	// Check if overlapping the hit zone by tag or class
 	if (OtherActor && OtherActor->ActorHasTag("HitZoneA"))
 	{

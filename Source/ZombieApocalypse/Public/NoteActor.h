@@ -17,7 +17,7 @@ public:
 	ANoteActor();
 
 protected:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBoxComponent> CollisionBox;
 
 	bool bIsOverlappingHitZoneA;
