@@ -12,7 +12,9 @@ ATargetArea::ATargetArea()
 
     // Create and set up the collision box.
     CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
-    RootComponent = CollisionBox; // Make the box the root component.
+	CollisionBox->SetupAttachment(RootComponent); 
+
+	CollisionBox->SetGenerateOverlapEvents(true);
 }
 
 // Called when the game starts or when spawned
