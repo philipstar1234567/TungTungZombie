@@ -22,7 +22,10 @@ ANoteActor::ANoteActor()
 	CollisionBox->SetGenerateOverlapEvents(true);
 
 	// Initialize overlap flag
-	bIsOverlappingHitZone = false;
+	bIsOverlappingHitZoneA = false;
+	bIsOverlappingHitZoneS = false;
+	bIsOverlappingHitZoneK = false;
+	bIsOverlappingHitZoneL = false;
 }
 
 // Called when the game starts or when spawned
@@ -40,7 +43,10 @@ void ANoteActor::BeginPlay()
 		EnableInput(PC);
 		if (InputComponent)
 		{
-			InputComponent->BindAction("HitNote", IE_Pressed, this, &ANoteActor::OnHitKeyPressed);
+			InputComponent->BindAction("HitNoteA", IE_Pressed, this, &ANoteActor::OnAHitKeyPressed);
+			InputComponent->BindAction("HitNoteS", IE_Pressed, this, &ANoteActor::OnSHitKeyPressed);
+			InputComponent->BindAction("HitNoteK", IE_Pressed, this, &ANoteActor::OnKHitKeyPressed);
+			InputComponent->BindAction("HitNoteL", IE_Pressed, this, &ANoteActor::OnLHitKeyPressed);
 		}
 	}
 }
@@ -56,26 +62,90 @@ void ANoteActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult& SweepResult)
 {
+	UE_LOG(LogTemp, Warning, TEXT("COLLISION HAS HAPPENED, WOOHOO"));
 	// Check if overlapping the hit zone by tag or class
-	if (OtherActor && OtherActor->ActorHasTag("HitZone"))
+	if (OtherActor && OtherActor->ActorHasTag("HitZoneA"))
 	{
-		bIsOverlappingHitZone = true;
+		UE_LOG(LogTemp, Warning, TEXT("bIsOverlapping blabla is set to TRUEE"));
+		bIsOverlappingHitZoneA = true;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneS"))
+	{
+		bIsOverlappingHitZoneS = true;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneK"))
+	{
+		bIsOverlappingHitZoneK = true;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneL"))
+	{
+		bIsOverlappingHitZoneL = true;
+	}
+	else
+	{
+		return;
 	}
 }
 
 void ANoteActor::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor && OtherActor->ActorHasTag("HitZone"))
+	if (OtherActor && OtherActor->ActorHasTag("HitZoneA"))
 	{
-		bIsOverlappingHitZone = false;
+		UE_LOG(LogTemp, Warning, TEXT("bIsOverlapping blabla is set to FALSSEE"));
+		bIsOverlappingHitZoneA = false;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneS"))
+	{
+		bIsOverlappingHitZoneS = false;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneK"))
+	{
+		bIsOverlappingHitZoneK = false;
+	}
+	else if (OtherActor && OtherActor->ActorHasTag("HitZoneL"))
+	{
+		bIsOverlappingHitZoneL = false;
+	}
+	else
+	{
+		return;
 	}
 }
 
-void ANoteActor::OnHitKeyPressed()
+void ANoteActor::OnAHitKeyPressed()
 {
-	if (bIsOverlappingHitZone)
+	UE_LOG(LogTemp, Warning, TEXT("Key has been pressed"));
+	if (bIsOverlappingHitZoneA)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+		Destroy(); // eliminate the note actor on key press during overlap
+	}
+}
+
+void ANoteActor::OnSHitKeyPressed()
+{
+	if (bIsOverlappingHitZoneS)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+		Destroy(); // eliminate the note actor on key press during overlap
+	}
+}
+
+void ANoteActor::OnKHitKeyPressed()
+{
+	if (bIsOverlappingHitZoneK)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+		Destroy(); // eliminate the note actor on key press during overlap
+	}
+}
+
+void ANoteActor::OnLHitKeyPressed()
+{
+	if (bIsOverlappingHitZoneL)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
 		Destroy(); // eliminate the note actor on key press during overlap
 	}
 }

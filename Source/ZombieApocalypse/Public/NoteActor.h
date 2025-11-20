@@ -20,7 +20,10 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UBoxComponent> CollisionBox;
 
-	bool bIsOverlappingHitZone;
+	bool bIsOverlappingHitZoneA;
+	bool bIsOverlappingHitZoneS;
+	bool bIsOverlappingHitZoneK;
+	bool bIsOverlappingHitZoneL;
 
 	UFUNCTION()
 	void OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -31,7 +34,10 @@ protected:
 	void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	void OnHitKeyPressed();
+	void OnAHitKeyPressed();
+	void OnSHitKeyPressed();
+	void OnKHitKeyPressed();
+	void OnLHitKeyPressed();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
