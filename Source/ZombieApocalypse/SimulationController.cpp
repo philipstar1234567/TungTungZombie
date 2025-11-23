@@ -11,6 +11,13 @@
 #include <regex>
 #include <sstream>
 
+#include "HumanActor.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMeshActor.h"
+#include "Components/CapsuleComponent.h"
+#include "Engine/World.h"
+#include "DrawDebugHelpers.h"
+
 ASimulationController::ASimulationController()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -87,6 +94,7 @@ void ASimulationController::BeginPlay()
     }
 
     CreateChartTable();
+    SpawningCurtainPullForTheActorsPresentingTheZombieSim();
 }
 
 
@@ -222,6 +230,97 @@ void ASimulationController::CreateChartTable()
         FString FilePath{ FPaths::ProjectContentDir() + TEXT("RythmGameInsideAZombieNightmare/ChartFiles/") + ChartFilePath };
         PopulateDataTableFromChartFile(FilePath);
     }
+}
+
+void ASimulationController::SpawningCurtainPullForTheActorsPresentingTheZombieSim()
+{
+    auto CalculateLocalSpawnPointDistribution = [](int NumPoints, FVector LocalMin, FVector LocalMax)
+        {
+            TArray<FVector> Points;
+
+            if (NumPoints <= 0)
+                return Points;
+
+            // Compute rows and cols for a grid layout
+            int32 NumRows = FMath::FloorToInt(FMath::Sqrt(static_cast<float>(NumPoints)));
+            int32 NumCols = FMath::CeilToInt(static_cast<float>(NumPoints) / NumRows);
+
+            float Width = LocalMax.X - LocalMin.X;
+            float Depth = LocalMax.Y - LocalMin.Y;
+
+            float XSpacing = (NumCols > 1) ? Width / (NumCols - 1) : 0.f;
+            float YSpacing = (NumRows > 1) ? Depth / (NumRows - 1) : 0.f;
+            float Z = LocalMax.Z; // Use top of bounds as base height
+
+            for (int32 Row = 0; Row < NumRows; ++Row)
+            {
+                for (int32 Col = 0; Col < NumCols; ++Col)
+                {
+                    if (Points.Num() >= NumPoints)
+                        break;
+
+                    float X = LocalMin.X + (Col) * XSpacing;
+                    float Y = LocalMin.Y + (Row) * YSpacing;
+
+                    Points.Add(FVector(X, Y, Z));
+                }
+            }
+
+            return Points;
+        };
+
+    if (!FloorToPutZombiesOn || !ActorToSpawn || Susceptible <= 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Invalid spawn setup. Check FloorToPutZombiesOn, ActorToSpawn, and Susceptible."));
+        return;
+    }
+
+    UStaticMeshComponent* MeshComp = FloorToPutZombiesOn->GetStaticMeshComponent();
+    if (!MeshComp)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Floor mesh component missing."));
+        return;
+    }
+
+    // Get local bounds of mesh
+    FVector LocalMin, LocalMax;
+    MeshComp->GetLocalBounds(LocalMin, LocalMax);
+    UE_LOG(LogTemp, Warning, TEXT("%s says: Local floor dimensions are defined with minimum(X = %f, Y = %f and Z = %f) and maximum(X = %f, Y = %f and Z = %f)"), TEXT(__FUNCTION__), LocalMin.X, LocalMin.Y, LocalMin.Z, LocalMax.X, LocalMax.Y, LocalMax.Z);
+    FVector WorldMin = MeshComp->GetComponentTransform().TransformPosition(LocalMin);
+    FVector WorldMax = MeshComp->GetComponentTransform().TransformPosition(LocalMax);
+
+    // Calculate equally spaced local points inside mesh bounds
+    TArray<FVector> LocalSpawnPoints = CalculateLocalSpawnPointDistribution(Susceptible, WorldMin, WorldMax);
+
+    UWorld* World = GetWorld();
+    if (!World) return;
+
+    int32 SpawnedCount = 0;
+
+    for (const FVector& LocalPoint : LocalSpawnPoints)
+    {
+        // Adjust spawn location to stand fully above floor
+        //FVector SpawnLocation = Hit.ImpactPoint + FVector(0.f, 0.f, CapsuleHalfHeight);
+        FVector SpawnLocation = LocalPoint;
+        UE_LOG(LogTemp, Warning, TEXT("%s says: Let there be a spawn point at X = %f, Y = %f, Z = %f"), TEXT(__FUNCTION__), SpawnLocation.GetComponentForAxis(EAxis::X), SpawnLocation.GetComponentForAxis(EAxis::Y), SpawnLocation.GetComponentForAxis(EAxis::Z));
+
+#if !UE_BUILD_SHIPPING
+        // Visualize spawn points
+        DrawDebugSphere(World, SpawnLocation, 20.f, 12, FColor::Green, false, 5.f);
+#endif
+
+        // Spawn actor
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+        AActor* Spawned = World->SpawnActor<AActor>(ActorToSpawn, SpawnLocation, FRotator::ZeroRotator, SpawnParams);
+        if (Spawned)
+        {
+            SpawnedCount++;
+        }
+    }
+
+    UE_LOG(LogTemp, Log, TEXT("Spawned %d actors on floor."), SpawnedCount);
 }
 
 

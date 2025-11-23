@@ -8,7 +8,6 @@
 #include "Engine/DataTable.h"
 #include "SimulationController.generated.h"
 
-
 // Struct for the Unreal DataTable
 USTRUCT(BlueprintType)
 struct FPopulationDensityEffect : public FTableRowBase
@@ -43,6 +42,7 @@ struct FChartFileData : public FTableRowBase
 	TMap<int, int> NoteMap;
 };
 
+class AHumanActor;
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ASimulationController : public AActor
@@ -132,4 +132,13 @@ public:
 	// Will hold the data tables here.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chart Data")
 	UDataTable* AllSongCharts;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Dance Floor")
+	class AStaticMeshActor* FloorToPutZombiesOn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Dance Floor")
+	TSubclassOf<AHumanActor> ActorToSpawn;
+
+	void SpawningCurtainPullForTheActorsPresentingTheZombieSim();
 };

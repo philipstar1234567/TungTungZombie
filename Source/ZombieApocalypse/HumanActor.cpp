@@ -46,3 +46,18 @@ void AHumanActor::Bitten()
 	
 }
 
+void AHumanActor::Zombiefied()
+{
+	if (ZombieStatus != EZombieState::Bitten)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't even bitten wants to become a zombie >( "));
+		return;
+	}
+
+	// Change the state formality
+	ZombieStatus = EZombieState::Zombie;
+
+	// Make the zombie look the part
+	IAmAZombie();
+}
+
