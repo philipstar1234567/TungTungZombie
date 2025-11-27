@@ -75,12 +75,14 @@ void AMeshSynchronizer::BiteHuman()
 		if (Actor->GetZombieStatus() == EZombieState::Human)
 		{
 			Actor->Bitten();
+			
+			HumanModelCount--;
+			BittenModelCount++;
 			// Breaks out of the loop, so it only does it on one
 			break;
 		}
 	}
-	HumanModelCount--;
-	BittenModelCount++;
+	
 }
 
 void AMeshSynchronizer::ZombifyBitten()
@@ -91,12 +93,14 @@ void AMeshSynchronizer::ZombifyBitten()
 		if (Actor->GetZombieStatus() == EZombieState::Bitten)
 		{
 			Actor->Zombiefied();
+			
+			ZombieModelCount++;
+			BittenModelCount--;
 			// Breaks out of the loop, so it only does it on one
 			break;
 		}
 	}
-	ZombieModelCount++;
-	BittenModelCount--;
+	
 }
 
 void AMeshSynchronizer::CureBitten()
@@ -107,12 +111,15 @@ void AMeshSynchronizer::CureBitten()
 		if (Actor->GetZombieStatus() == EZombieState::Bitten)
 		{
 			Actor->Cure();
+			
+			HumanModelCount++;
+			BittenModelCount--;
 			// Breaks out of the loop, so it only does it on one
 			break;
+			
 		}
 	}
-	HumanModelCount++;
-	BittenModelCount--;
+	
 }
 
 // Called every time the step time updates
