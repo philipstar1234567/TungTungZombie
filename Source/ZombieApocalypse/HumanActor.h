@@ -33,6 +33,9 @@ protected:
 	//Implement in BP to change mesh to zombie
 	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
 	void IAmAZombie();
+	//Implement in BP to change mesh to human
+	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
+	void IAmAHuman();
 	
 public:
 	// Called every frame
@@ -42,8 +45,12 @@ public:
 	// Bites this human
 	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
 	void Bitten();
-
-	
+	// Turns this actor into a zombie if it is bitten
+	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
+	void Zombify();
+	// Turns this actor into a human if it is bitten (but not zombie)
+	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
+	void Cure();
 	
 	
 
