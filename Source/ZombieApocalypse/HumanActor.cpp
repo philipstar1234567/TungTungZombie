@@ -46,33 +46,18 @@ void AHumanActor::Bitten()
 	
 }
 
-void AHumanActor::Zombify()
+void AHumanActor::Zombiefied()
 {
 	if (ZombieStatus != EZombieState::Bitten)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't bitten was attempted to be zombified!"));
+		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't even bitten wants to become a zombie >( "));
 		return;
 	}
-	
-	// Changes state
+
+	// Change the state formality
 	ZombieStatus = EZombieState::Zombie;
-	
-	// Calls BP function to change mesh
+
+	// Make the zombie look the part
 	IAmAZombie();
-	
 }
 
-void AHumanActor::Cure()
-{
-	if (ZombieStatus != EZombieState::Bitten)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't bitten was attempted to be cured!"));
-		return;
-	}
-	
-	// Changes state
-	ZombieStatus = EZombieState::Human;
-	
-	// Calls BP Function to humanify
-	IAmAHuman();
-}

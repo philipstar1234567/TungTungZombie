@@ -4,10 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ZombieStatus.h" // For the enum values
 #include "HumanActor.generated.h"
 
-
+// An enum for the current status of the human.
+UENUM(BlueprintType)
+enum class EZombieState : uint8
+{
+	Human UMETA(DisplayName = "Human"),
+	Bitten UMETA(DisplayName = "Bitten"),
+	Zombie UMETA(DisplayName = "Zombie")
+};
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API AHumanActor : public AActor
@@ -33,9 +39,6 @@ protected:
 	//Implement in BP to change mesh to zombie
 	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
 	void IAmAZombie();
-	//Implement in BP to change mesh to human
-	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
-	void IAmAHuman();
 	
 public:
 	// Called every frame
@@ -45,12 +48,11 @@ public:
 	// Bites this human
 	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
 	void Bitten();
-	// Turns this actor into a zombie if it is bitten
+	// This human becomes a full fledged zombie
 	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
-	void Zombify();
-	// Turns this actor into a human if it is bitten (but not zombie)
-	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
-	void Cure();
+	void Zombiefied();
+
+	
 	
 	
 
