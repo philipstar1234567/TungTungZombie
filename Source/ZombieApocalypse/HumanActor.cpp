@@ -4,6 +4,16 @@
 #include "HumanActor.h"
 #include "CoreGlobals.h"
 
+
+
+/*
+ * Notes to self for later development:
+ * 
+ * In Bitten(), make it call Zombiefy() after 15 steps.
+ */
+
+
+
 // Sets default values
 AHumanActor::AHumanActor()
 {
@@ -40,7 +50,7 @@ void AHumanActor::Bitten()
 
 	// Starts the bite process
 	ZombieStatus = EZombieState::Bitten;
-
+	
 	// Change skeletal mesh in BP
 	IAmBitten();
 	
@@ -70,6 +80,9 @@ void AHumanActor::Cure()
 	}
 	
 	ZombieStatus = EZombieState::Human;
+	
+	// Resets zombification timer
+	ZombificationCountdown = 15;
 	
 	// Changes mesh in BP
 	IAmAHuman();

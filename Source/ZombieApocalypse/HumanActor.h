@@ -30,6 +30,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
+	// Amount of steps until it becomes zombie from bitten
+	UPROPERTY(VisibleAnywhere, category = "ZombieSim")
+	int32 ZombificationCountdown = 15;
+	
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, category = "ZombieSim")
 	EZombieState ZombieStatus = EZombieState::Human;
 
@@ -42,6 +47,7 @@ protected:
 	//Implement in BP to change mesh to zombie
 	UFUNCTION(BlueprintImplementableEvent, Category = "ZombieSim")
 	void IAmAHuman();
+
 	
 public:
 	// Called every frame
@@ -57,6 +63,9 @@ public:
 	// Turns into human if bitten
 	UFUNCTION(BlueprintCallable, Category = "ZombieSim")
 	void Cure();
+	
+	// Call this in every bitten actor when step progresses
+	void StepProgressed();
 	
 	
 	

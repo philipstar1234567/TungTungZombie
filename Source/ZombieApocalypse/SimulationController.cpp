@@ -17,6 +17,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "Public/MeshSynchronizer.h"
 
 ASimulationController::ASimulationController()
 {
@@ -232,6 +233,16 @@ void ASimulationController::CreateChartTable()
     }
 }
 
+// This gets called from MeshSynchronizer.cpp
+void ASimulationController::SetMeshSynchronizer(AMeshSynchronizer* InMeshSynchronizer)
+{
+    if (InMeshSynchronizer)
+    {
+        MeshSynchronizer = InMeshSynchronizer;
+    }
+    
+}
+
 void ASimulationController::SpawningCurtainPullForTheActorsPresentingTheZombieSim()
 {
     auto CalculateLocalSpawnPointDistribution = [](int NumPoints, FVector LocalMin, FVector LocalMax)
@@ -336,6 +347,9 @@ void ASimulationController::Tick(float DeltaTime)
     {
         AccumulatedTime = 0.f; // Reset accumulator
         UE_LOG(LogTemp, Log, TEXT("SimulationStep"));
+        
+       
+        
 
         //std::cout << "\n***** Day: " << t << " *****\n";
         // --- Calculate auxiliaries (using values at current time t) ---
@@ -424,6 +438,13 @@ void ASimulationController::Tick(float DeltaTime)
 
         // Write row for t+DT
         //write_row(t + (int)DT, csvFile);
+        
+        // Calls UpdadeStepCount in MeshSynchronizer for visuals.
+        if (MeshSynchronizer)
+        {
+            MeshSynchronizer->UpdateStepTime();
+        }
+        
     }
 }
 

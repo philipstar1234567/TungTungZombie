@@ -8,6 +8,9 @@
 #include "Engine/DataTable.h"
 #include "SimulationController.generated.h"
 
+// Forward declaration
+class AMeshSynchronizer;
+
 // Struct for the Unreal DataTable
 USTRUCT(BlueprintType)
 struct FPopulationDensityEffect : public FTableRowBase
@@ -127,8 +130,14 @@ protected:
 	void PopulateDataTableFromChartFile(const FString& inChartFilePath);
 
 	void CreateChartTable();
+	
+	// Pointer to the mesh synchronizer
+	UPROPERTY()
+	TObjectPtr<AMeshSynchronizer> MeshSynchronizer;
 
 public:
+	void SetMeshSynchronizer(AMeshSynchronizer* InMeshSynchronizer);
+	
 	// Will hold the data tables here.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chart Data")
 	UDataTable* AllSongCharts;

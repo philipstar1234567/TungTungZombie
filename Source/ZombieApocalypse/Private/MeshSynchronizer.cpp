@@ -10,7 +10,7 @@
 AMeshSynchronizer::AMeshSynchronizer()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	
 
@@ -51,6 +51,8 @@ void AMeshSynchronizer::InitializePointers()
 	// Assigns the simulationcontroller pointer to the simulationcontroller in the scene :thumbsup:
 	SimulationController = Cast<ASimulationController>(UGameplayStatics::GetActorOfClass(GetWorld(), ASimulationController::StaticClass()));
 	
+	
+	
 	// Bites and Zombifies the first human actor because we start with 1 zombie.
 	ActorArray[0]->Bitten();
 	ActorArray[0]->Zombiefied();
@@ -58,24 +60,61 @@ void AMeshSynchronizer::InitializePointers()
 	
 	if (SimulationController)
 	{
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AMeshSynchronizer::UpdateMeshes, 0.5f, true);
+		// Sets the pointer to this properly
+		SimulationController->SetMeshSynchronizer(this);
+		
 	}
 	
 }
 
-// Called every half a second to update the meshes (starting from the 0.6th second)
-void AMeshSynchronizer::UpdateMeshes()
+void AMeshSynchronizer::BiteHuman()
 {
+	for (AHumanActor* Actor : ActorArray)
+	{
+		// Gets the first human it finds, and bites it.
+		if (Actor->GetZombieStatus() == EZombieState::Human)
+		{
+			Actor->Bitten();
+			// Breaks out of the loop, so it only does it on one
+			break;
+		}
+	}
+	HumanModelCount--;
+	BittenModelCount++;
+}
+
+void AMeshSynchronizer::ZombifyBitten()
+{
+	
+	ZombieModelCount++;
+	BittenModelCount--;
+}
+
+void AMeshSynchronizer::CureBitten()
+{
+	
+	HumanModelCount++;
+	BittenModelCount--;
+}
+
+// Called every time the step time updates
+void AMeshSynchronizer::UpdateStepTime()
+{
+	// Special first-time check to accomodate for any weird discrepancies.
+	if (bFirstTimeRunningStepTime)
+	{
+		int32 deltaBitten = SimulationController->Bitten;
+		for (int32 i = 0; i < deltaBitten; i++)
+		{
+			BiteHuman();
+		}	
+		bFirstTimeRunningStepTime = false;
+		return;
+	}
 	
 	
 	
 }
 
 
-// Called every frame
-void AMeshSynchronizer::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 
