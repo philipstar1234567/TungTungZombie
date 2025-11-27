@@ -285,7 +285,7 @@ void ASimulationController::SpawningCurtainPullForTheActorsPresentingTheZombieSi
     // Get local bounds of mesh
     FVector LocalMin, LocalMax;
     MeshComp->GetLocalBounds(LocalMin, LocalMax);
-    UE_LOG(LogTemp, Warning, TEXT("%s says: Local floor dimensions are defined with minimum(X = %f, Y = %f and Z = %f) and maximum(X = %f, Y = %f and Z = %f)"), TEXT(__FUNCTION__), LocalMin.X, LocalMin.Y, LocalMin.Z, LocalMax.X, LocalMax.Y, LocalMax.Z);
+    //UE_LOG(LogTemp, Warning, TEXT("%s says: Local floor dimensions are defined with minimum(X = %f, Y = %f and Z = %f) and maximum(X = %f, Y = %f and Z = %f)"), TEXT(__FUNCTION__), LocalMin.X, LocalMin.Y, LocalMin.Z, LocalMax.X, LocalMax.Y, LocalMax.Z);
     FVector WorldMin = MeshComp->GetComponentTransform().TransformPosition(LocalMin);
     FVector WorldMax = MeshComp->GetComponentTransform().TransformPosition(LocalMax);
 
@@ -302,7 +302,7 @@ void ASimulationController::SpawningCurtainPullForTheActorsPresentingTheZombieSi
         // Adjust spawn location to stand fully above floor
         //FVector SpawnLocation = Hit.ImpactPoint + FVector(0.f, 0.f, CapsuleHalfHeight);
         FVector SpawnLocation = LocalPoint;
-        UE_LOG(LogTemp, Warning, TEXT("%s says: Let there be a spawn point at X = %f, Y = %f, Z = %f"), TEXT(__FUNCTION__), SpawnLocation.GetComponentForAxis(EAxis::X), SpawnLocation.GetComponentForAxis(EAxis::Y), SpawnLocation.GetComponentForAxis(EAxis::Z));
+        //UE_LOG(LogTemp, Warning, TEXT("%s says: Let there be a spawn point at X = %f, Y = %f, Z = %f"), TEXT(__FUNCTION__), SpawnLocation.GetComponentForAxis(EAxis::X), SpawnLocation.GetComponentForAxis(EAxis::Y), SpawnLocation.GetComponentForAxis(EAxis::Z));
 
 #if !UE_BUILD_SHIPPING
         // Visualize spawn points

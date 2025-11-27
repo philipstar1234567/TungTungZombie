@@ -61,3 +61,18 @@ void AHumanActor::Zombiefied()
 	IAmAZombie();
 }
 
+void AHumanActor::Cure()
+{
+	if (ZombieStatus != EZombieState::Bitten)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("An actor that isn't even bitten wants to be cured >( "));
+		return;
+	}
+	
+	ZombieStatus = EZombieState::Human;
+	
+	// Changes mesh in BP
+	IAmAHuman();
+	
+}
+
