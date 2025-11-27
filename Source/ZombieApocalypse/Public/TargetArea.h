@@ -61,14 +61,14 @@ public:
 	class UBoxComponent* CollisionBox;
 
 
-	void OnAHitKeyPressed();
+	void OnHitKeyPressed();
 	
 
-	void OnSHitKeyPressed();
-	
-
-	void OnKHitKeyPressed();
-	
-
-	void OnLHitKeyPressed();
+	// void OnSHitKeyPressed();
+	//
+	//
+	// void OnKHitKeyPressed();
+	//
+	//
+	// void OnLHitKeyPressed();
 };

@@ -38,16 +38,16 @@ void ATargetArea::BeginPlay()
 			//Let's try binding the input to the target area ONLY if it has the right tag. What could go wrong?
 			
 			if (this->ActorHasTag("HitZoneA"))
-				InputComponent->BindAction("HitNoteA", IE_Pressed, this, &ATargetArea::OnAHitKeyPressed);
+				InputComponent->BindAction("HitNoteA", IE_Pressed, this, &ATargetArea::OnHitKeyPressed);
 			
 			if (this->ActorHasTag("HitZoneS"))
-			InputComponent->BindAction("HitNoteS", IE_Pressed, this, &ATargetArea::OnSHitKeyPressed);
+			InputComponent->BindAction("HitNoteS", IE_Pressed, this, &ATargetArea::OnHitKeyPressed);
 			
 			if (this->ActorHasTag("HitZoneK"))
-			InputComponent->BindAction("HitNoteK", IE_Pressed, this, &ATargetArea::OnKHitKeyPressed);
+			InputComponent->BindAction("HitNoteK", IE_Pressed, this, &ATargetArea::OnHitKeyPressed);
 			
 			if (this->ActorHasTag("HitZoneL"))
-			InputComponent->BindAction("HitNoteL", IE_Pressed, this, &ATargetArea::OnLHitKeyPressed);
+			InputComponent->BindAction("HitNoteL", IE_Pressed, this, &ATargetArea::OnHitKeyPressed);
 			
 		}
 	}
@@ -135,7 +135,7 @@ void ATargetArea::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 //@TODO: TO BE MODIFIED. UNLESS I DECIDE TO PRANK EVERYONE AND DESTROY THE TARGET AREA INSTEAD ON KEY PRESS
 
 
-void ATargetArea::OnAHitKeyPressed()
+void ATargetArea::OnHitKeyPressed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Key has been pressed"));
 	if (!OverlappingNote) return;
@@ -148,42 +148,42 @@ void ATargetArea::OnAHitKeyPressed()
 	}
 }
 
-void ATargetArea::OnSHitKeyPressed()
-{
-	if (!OverlappingNote) return;
-	if (bIsOverlappingNote)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
-		OverlappingNote->Destroy();
-		
-		// eliminate the note actor on key press during overlap
-	}
-}
-
-void ATargetArea::OnKHitKeyPressed()
-{
-	if (!OverlappingNote) return;
-	if (bIsOverlappingNote)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
-		OverlappingNote->Destroy();
-		
-		// eliminate the note actor on key press during overlap
-	}
-}
-
-void ATargetArea::OnLHitKeyPressed()
-{
-	
-	if (!OverlappingNote) return;
-	if (bIsOverlappingNote)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
-		OverlappingNote->Destroy();
-		
-		// eliminate the note actor on key press during overlap
-	}
-}
+// void ATargetArea::OnSHitKeyPressed()
+// {
+// 	if (!OverlappingNote) return;
+// 	if (bIsOverlappingNote)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+// 		OverlappingNote->Destroy();
+// 		
+// 		// eliminate the note actor on key press during overlap
+// 	}
+// }
+//
+// void ATargetArea::OnKHitKeyPressed()
+// {
+// 	if (!OverlappingNote) return;
+// 	if (bIsOverlappingNote)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+// 		OverlappingNote->Destroy();
+// 		
+// 		// eliminate the note actor on key press during overlap
+// 	}
+// }
+//
+// void ATargetArea::OnLHitKeyPressed()
+// {
+// 	
+// 	if (!OverlappingNote) return;
+// 	if (bIsOverlappingNote)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
+// 		OverlappingNote->Destroy();
+// 		
+// 		// eliminate the note actor on key press during overlap
+// 	}
+// }
 
 
 
