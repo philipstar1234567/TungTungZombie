@@ -85,14 +85,32 @@ void AMeshSynchronizer::BiteHuman()
 
 void AMeshSynchronizer::ZombifyBitten()
 {
-	
+	for (AHumanActor* Actor : ActorArray)
+	{
+		// Gets the first bitten it finds, and zombifies it
+		if (Actor->GetZombieStatus() == EZombieState::Bitten)
+		{
+			Actor->Zombiefied();
+			// Breaks out of the loop, so it only does it on one
+			break;
+		}
+	}
 	ZombieModelCount++;
 	BittenModelCount--;
 }
 
 void AMeshSynchronizer::CureBitten()
 {
-	
+	for (AHumanActor* Actor : ActorArray)
+	{
+		// Gets the first bitten it finds, and cures it
+		if (Actor->GetZombieStatus() == EZombieState::Bitten)
+		{
+			Actor->Cure();
+			// Breaks out of the loop, so it only does it on one
+			break;
+		}
+	}
 	HumanModelCount++;
 	BittenModelCount--;
 }
@@ -100,16 +118,35 @@ void AMeshSynchronizer::CureBitten()
 // Called every time the step time updates
 void AMeshSynchronizer::UpdateStepTime()
 {
-	// Special first-time check to accomodate for any weird discrepancies.
-	if (bFirstTimeRunningStepTime)
+	int32 deltaBitten = SimulationController->Bitten - BittenModelCount;
+	int32 deltaZombies = SimulationController->Zombies - ZombieModelCount;
+	int32 deltaHumans = SimulationController->Susceptible - HumanModelCount;
+
+	// Increases
+	if (deltaBitten > 0)
 	{
-		int32 deltaBitten = SimulationController->Bitten;
-		for (int32 i = 0; i < deltaBitten; i++)
+		for (int i = 0; i < deltaBitten; i++)
 		{
 			BiteHuman();
-		}	
-		bFirstTimeRunningStepTime = false;
-		return;
+		}
+	}
+	else // In an else statement, because both at once here is impossible.
+	{
+		if (deltaHumans > 0)
+		{
+			for (int i = 0; i < deltaHumans; i++)
+			{
+				CureBitten();
+			}
+		}
+	}
+	
+	if (deltaZombies > 0)
+	{
+		for (int i = 0; i < deltaZombies; i++)
+		{
+			ZombifyBitten();
+		}
 	}
 	
 	
