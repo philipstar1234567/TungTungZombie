@@ -23,13 +23,13 @@ public:
 	// Sets default values for this actor's properties
 	ANoteManager();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+// protected:
+// 	// Called when the game starts or when spawned
+// 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+// public:	
+	// // Called every frame
+	// virtual void Tick(float DeltaTime) override;
 	
     // The beatmap data table for the current song.
     // We can assign our CSV-imported Data Table to this in the editor.
@@ -41,11 +41,11 @@ public:
     UPROPERTY(EditAnywhere, Category = "Rhythm Game")
     TSubclassOf<ANoteActor> NoteActorClass;
 
-	UPROPERTY(EditAnywhere, Category = "HitBoxes")
-	TSubclassOf<ATargetArea> HitBoxZoneClass;
+	// UPROPERTY(EditAnywhere, Category = "HitBoxes")
+	// TSubclassOf<ATargetArea> HitBoxZoneClass;
 
-	UFUNCTION(BlueprintCallable, Category = "HitBoxes")
-	void SpawnHitboxes();
+	// UFUNCTION(BlueprintCallable, Category = "HitBoxes")
+	// void SpawnHitboxes();
 
     // A function we can call from our Blueprint to start the song.
     UFUNCTION(BlueprintCallable, Category = "Rhythm Game")
