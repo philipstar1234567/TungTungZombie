@@ -445,6 +445,16 @@ void ASimulationController::Tick(float DeltaTime)
             MeshSynchronizer->UpdateStepTime();
         }
         
+        // Win/lose checks
+        if (Zombies <= 0 && Bitten <= 0 && Susceptible > 0)
+        {
+            Win();
+        }
+        if (Susceptible <= 0 && Bitten <= 0)
+        {
+            Lose();
+        }
+        
     }
 }
 
