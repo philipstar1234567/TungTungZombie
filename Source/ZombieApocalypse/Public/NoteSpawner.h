@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"	
-#include "ZombieApocalypse\SimulationController.h"						// Chart struct declaration
+#include "ZombieApocalypse/SimulationController.h"						// Chart struct declaration
 #include "Quartz/QuartzSubsystem.h"										// We now will attempt to bring in Quartz into this.
 #include "Quartz/QuartzMetronome.h"
 #include "Quartz/AudioMixerClockHandle.h"
 #include "Sound/QuartzQuantizationUtilities.h"
+#include "Sound/QuartzInterfaces.h"
 #include "NoteSpawner.generated.h"
 
 UCLASS()
@@ -50,7 +51,7 @@ public:
 	//void PlaySongQuantized();
 
 	//UFUNCTION()
-	//void OnQuartzBeat(const FQuartzMetronomeEventData& EventData);
+	//void OnQuartzBeat(const FQuartzMetronomeDelegateData& EventData);
 
 	UPROPERTY(EditAnywhere, Category = "Rhythm")
 	FName SongName;
