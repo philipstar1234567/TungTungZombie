@@ -5,12 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"	
 #include "ZombieApocalypse/SimulationController.h"						// Chart struct declaration
-#include "Quartz/QuartzSubsystem.h"										// We now will attempt to bring in Quartz into this.
-#include "Quartz/QuartzMetronome.h"
-#include "Quartz/AudioMixerClockHandle.h"
-#include "Sound/QuartzQuantizationUtilities.h"
-#include "Sound/QuartzInterfaces.h"
 #include "NoteSpawner.generated.h"
+
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ANoteSpawner : public AActor
@@ -47,12 +43,6 @@ public:
 	UFUNCTION()
 	void PlaySong();
 
-	//UFUNCTION()
-	//void PlaySongQuantized();
-
-	//UFUNCTION()
-	//void OnQuartzBeat(const FQuartzMetronomeDelegateData& EventData);
-
 	UPROPERTY(EditAnywhere, Category = "Rhythm")
 	FName SongName;
 
@@ -80,12 +70,5 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Rhythm")
 	FString SongAssetPath{ "/Game/RythmGameInsideAZombieNightmare/MusicFiles/" };
 
-	// Quartzification
 
-	//// Quartz clock handle for scheduling and events
-	//UQuartzClockHandle* QuartzClockHandle = nullptr;
-	//FQuartzClockSettings ClockSettings;
-
-	// Track current bar and beat
-	int32 CurrentTick = 0;
 };

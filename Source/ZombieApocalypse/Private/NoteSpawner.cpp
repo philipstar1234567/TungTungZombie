@@ -56,29 +56,29 @@ void ANoteSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//if (bIsThereASongToPlay)
-	//{
-	//	SongPosition += DeltaTime;
+	if (bIsThereASongToPlay)
+	{
+		SongPosition += DeltaTime;
 
-	//	int CurrentTick = SongPosition * Resolution * (BPM/1000) / 60.f;
+		int CurrentTick = SongPosition * Resolution * (BPM/1000) / 60.f;
 
-	//	UE_LOG(LogTemp, Warning, TEXT("ANoteSpawner::Tick says: CurrentTick is %d"), CurrentTick);
+		UE_LOG(LogTemp, Warning, TEXT("ANoteSpawner::Tick says: CurrentTick is %d"), CurrentTick);
 
-	//	for (int Tick = LastTick + 1; Tick <= CurrentTick; Tick++)
-	//	{
-	//		if (NoteMap.Contains(Tick))
-	//		{
-	//			SpawnNoteAtLane(NoteMap.FindAndRemoveChecked(Tick));
-	//		}
-	//	}
+		for (int Tick = LastTick + 1; Tick <= CurrentTick; Tick++)
+		{
+			if (NoteMap.Contains(Tick))
+			{
+				SpawnNoteAtLane(NoteMap.FindAndRemoveChecked(Tick));
+			}
+		}
 
-	//	LastTick = CurrentTick;
+		LastTick = CurrentTick;
 
-	//	if (NoteMap.IsEmpty())
-	//	{
-	//		bIsThereASongToPlay = false;
-	//	}
-	//}
+		if (NoteMap.IsEmpty())
+		{
+			bIsThereASongToPlay = false;
+		}
+	}
 }
 
 void ANoteSpawner::BeginPlay()
@@ -86,38 +86,6 @@ void ANoteSpawner::BeginPlay()
 	Super::BeginPlay();
 
 	InitialiseSongState();
-
-	//UQuartzSubsystem* Quartz = GEngine->GetEngineSubsystem<UQuartzSubsystem>();
-	//if (!Quartz)
-	//{
-	//	UE_LOG(LogTemp, Error, TEXT("Quartz subsystem not found"));
-	//	return;
-	//}
-
-	//// Prepare Quartz clock settings
-	//ClockSettings.BeatsPerMinute = BPM;
-	//ClockSettings.TimeSignature.NumBeats = 4;                       // e.g., 4/4 time
-	//ClockSettings.TimeSignature.BeatType = EQuartzTimeSignatureQuantization::QuarterNote;
-
-	//// Create Quartz clock
-	//Quartz->CreateNewClock(this, FName("SongClock"), ClockSettings);
-
-	//QuartzClockHandle = Quartz->GetHandleForClock(this, FName("SongClock"));
-	//if (!QuartzClockHandle)
-	//{
-	//	UE_LOG(LogTemp, Error, TEXT("Failed to get Quartz clock handle"));
-	//	return;
-	//}
-
-	//// Subscribe to Beat quantization event
-	//QuartzClockHandle->SubscribeToQuantizationEvent(
-	//	this,
-	//	EQuartzCommandQuantization::Beat,
-	//	FOnQuartzMetronomeEventBP::CreateUObject(this, &ANoteSpawner::OnQuartzBeat)
-	//);
-
-	//// Start song playback quantized to the Quartz clock
-	//PlaySongQuantized();
 }
 
 void ANoteSpawner::InitialiseSongState()
@@ -134,7 +102,7 @@ void ANoteSpawner::InitialiseSongState()
 	BPM = CurrentRow->BeatsPerMinute;
 	NoteMap = CurrentRow->NoteMap;
 	bIsThereASongToPlay = true;
-	//PlaySong();
+	PlaySong();
 	//PlaySongQuantized();
 }
 
@@ -163,22 +131,3 @@ void ANoteSpawner::PlaySong()
 	UGameplayStatics::SpawnSound2D(this, SoundAsset);
 }
 
-//void ANoteSpawner::PlaySongQuantized()
-//{
-//	if (!QuartzClockHandle) return;
-//
-//	FSoftObjectPath SoftPath(SongAssetPath + SongName.ToString() + TEXT(".") + SongName.ToString());
-//	USoundBase* SoundAsset = Cast<USoundBase>(SoftPath.TryLoad());
-//
-//	if (!SoundAsset)
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("Failed to load song named: %s at path: %s"), *SongName.ToString(), *SongAssetPath);
-//		return;
-//	}
-//
-//	UAudioComponent* AudioComp = UGameplayStatics::SpawnSound2D(this, SoundAsset, 1.f, 1.f, 0.f, nullptr, true);
-//	if (AudioComp)
-//	{
-//		AudioComp->PlayQuantized(this, QuartzClockHandle, EQuartzCommandQuantization::Bar, nullptr, 0.f);
-//	}
-//}
