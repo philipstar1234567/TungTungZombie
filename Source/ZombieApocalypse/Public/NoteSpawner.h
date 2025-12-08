@@ -7,6 +7,8 @@
 #include "ZombieApocalypse/SimulationController.h"						// Chart struct declaration
 #include "NoteSpawner.generated.h"
 
+class UQuartzClockHandle;
+class UAudioComponent;
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ANoteSpawner : public AActor
@@ -40,7 +42,6 @@ public:
 	FChartFileData* GetRowByName(const FName& RowName) const;
 
 	/** Songs will only play if their file name matches exactly the one on the data table. */
-	UFUNCTION()
 	void PlaySong();
 
 	UPROPERTY(EditAnywhere, Category = "Rhythm")
@@ -62,7 +63,7 @@ public:
 	int BPM;
 
 	UPROPERTY(VisibleAnywhere, Category = "Rhythm")
-	bool bIsThereASongToPlay{ false };
+	bool bIsSongPlaying{ false };
 
 	int LastTick;
 
@@ -70,5 +71,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Rhythm")
 	FString SongAssetPath{ "/Game/RythmGameInsideAZombieNightmare/MusicFiles/" };
 
+	// QUARTZIFICATION 2 ELECTRIC BOOGALOO
 
+	/** The actual Audio Component that plays the music */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Audio")
+	UAudioComponent* AudioComp;
+
+	/** The handle to the Quartz Clock regulating our timing */
+	UPROPERTY()
+	UQuartzClockHandle* ClockHandle;
+
+	/** Name of our specific clock to prevent conflicts */
+	FName ClockName;
+
+	/** Tracks the last processed tick to prevent double-spawning or skipping */
+	int32 LastProcessedTick = -1;
 };
