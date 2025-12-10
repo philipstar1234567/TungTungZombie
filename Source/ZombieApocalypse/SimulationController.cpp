@@ -104,7 +104,7 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
     FChartFileData NewRow;
 
     std::string FileContentStr{ "" };
-    // Most variable here do not need to live for the duration of the whole program. We can release them from the stack sooner by tightening their scope.
+    // Most variables here do not need to live for the duration of the whole program. We can release them from the stack sooner by tightening their scope.
     // Some of these variables can get relatively sizeable, so it's probably good to not keep them around longer than needed.
     {
         std::stringstream FileContent{ "" };
@@ -153,7 +153,7 @@ void ASimulationController::PopulateDataTableFromChartFile(const FString& inChar
                 std::cerr << "Error : " << e.what() << std::endl;
                 return -1;
             }
-            // This one is for numbers above or below the limits of an integer, probably if not in this interval -> [2^-31, 2^31-1]
+            // This one is for numbers above or below the limits of an integer, probably if not in this interval -> [-2^31, 2^31-1]
             catch (const std::out_of_range& e)
             {
                 std::cerr << "Error : " << e.what() << std::endl;
