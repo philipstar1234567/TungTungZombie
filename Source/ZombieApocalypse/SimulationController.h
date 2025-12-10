@@ -78,7 +78,7 @@ public:
 	const float Bitten_capacity {1000.f};                   // Capacity inside conveyor == people at start
 	const float patient_zero {1.0f};                        // Zombies
 	const float CONVERSION_FROM_PEOPLE_TO_ZOMBIES {1.f};    // Conversion constant, always 1
-	const float normal_number_of_bites {1.f};               // People/zombie/day
+	const float normal_number_of_bites {0.3f};               // People/zombie/day
 	const float land_area {1000.f};                         // In m2
 	const float normal_population_density {0.1f};           // people/m2
 	
@@ -106,9 +106,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Simulation Variables")
 	int32 Susceptible{ 100 };
 	// Zombies = patient_zero
-	int32 Zombies{ 1 };		
+	int32 Zombies{ 10 };		
 	// Just to check if we are correctly updating stocks - used in SimulationHUD
-	int32 Bitten{ 0 };          // s Bitten -> in BittenArraySize
+	int32 Bitten{ 40 };          // s Bitten -> in BittenArraySize
 
 	// Conveyor content is the Bitten people incubating
 	// Will have one ConveyorBatch of each remainingDays

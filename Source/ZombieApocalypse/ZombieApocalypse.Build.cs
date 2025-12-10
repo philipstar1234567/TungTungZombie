@@ -12,6 +12,10 @@ public class ZombieApocalypse : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "AudioMixer", "AudioExtensions", "AudioPlatformConfiguration"});
 
+		PublicIncludePaths.AddRange(new string[]
+		{
+			"ZombieApocalypse"
+		});
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		

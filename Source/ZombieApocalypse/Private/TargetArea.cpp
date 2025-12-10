@@ -5,6 +5,7 @@
 #include "NoteActor.h"
 #include "Components/BoxComponent.h"
 #include "Engine/Note.h"
+#include "SimulationController.h"
 
 // Sets default values
 ATargetArea::ATargetArea()
@@ -132,8 +133,6 @@ void ATargetArea::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 	// }
 }
 
-//@TODO: TO BE MODIFIED. UNLESS I DECIDE TO PRANK EVERYONE AND DESTROY THE TARGET AREA INSTEAD ON KEY PRESS
-
 
 void ATargetArea::OnHitKeyPressed()
 {
@@ -143,8 +142,21 @@ void ATargetArea::OnHitKeyPressed()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Key has been pressed AND overlap is on"));
 		OverlappingNote->Destroy();
-		
-			// eliminate the note actor on key press during overlap
+		// eliminate the note actor on key press during overlap
+		if (!TheZombieSituation) return;
+		if (TheZombieSituation->Bitten>0)
+		{
+			TheZombieSituation->Bitten-=4*TheZombieSituation->graph_lookup(((TheZombieSituation->Bitten+TheZombieSituation->Susceptible)/TheZombieSituation->land_area)/TheZombieSituation->normal_population_density);
+			TheZombieSituation->Susceptible+=4*TheZombieSituation->graph_lookup(((TheZombieSituation->Bitten+TheZombieSituation->Susceptible)/TheZombieSituation->land_area)/TheZombieSituation->normal_population_density);
+		}
+		if (TheZombieSituation->Bitten<=0)
+		{
+			
+			TheZombieSituation->Zombies-=2*TheZombieSituation->graph_lookup(((TheZombieSituation->Bitten+TheZombieSituation->Susceptible)/TheZombieSituation->land_area)/TheZombieSituation->normal_population_density);
+			
+			TheZombieSituation->Susceptible+=2*TheZombieSituation->graph_lookup(((TheZombieSituation->Bitten+TheZombieSituation->Susceptible)/TheZombieSituation->land_area)/TheZombieSituation->normal_population_density);
+		}
+
 	}
 }
 

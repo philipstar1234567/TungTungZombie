@@ -7,6 +7,7 @@
 #include "TargetArea.generated.h"
 
 class ANoteActor;
+class ASimulationController;
 
 UCLASS()
 class ZOMBIEAPOCALYPSE_API ATargetArea : public AActor
@@ -60,6 +61,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rhythm Game")
 	class UBoxComponent* CollisionBox;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rhythm Game")
+	ASimulationController* TheZombieSituation;
 
 	void OnHitKeyPressed();
 	
