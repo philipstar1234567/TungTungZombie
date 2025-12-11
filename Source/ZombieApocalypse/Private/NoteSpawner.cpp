@@ -89,7 +89,11 @@ void ANoteSpawner::Tick(float DeltaTime)
 	//		bIsThereASongToPlay = false;
 	//	}
 	//}
-
+	if (AudioComp == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, "Audio Component pointer is null!");
+	}
+	
 	if (!AudioComp->IsPlaying()) 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Song finished"));

@@ -76,7 +76,7 @@ public:
 	/** The actual Audio Component that plays the music */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Audio")
 	UAudioComponent* AudioComp;
-
+	
 	/** The handle to the Quartz Clock regulating our timing */
 	UPROPERTY()
 	UQuartzClockHandle* ClockHandle;

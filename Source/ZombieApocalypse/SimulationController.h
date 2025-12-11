@@ -106,8 +106,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Simulation Variables")
 	int32 Susceptible{ 100 };
 	// Zombies = patient_zero
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Simulation Variables")
 	int32 Zombies{ 1 };		
 	// Just to check if we are correctly updating stocks - used in SimulationHUD
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Simulation Variables")
 	int32 Bitten{ 0 };          // s Bitten -> in BittenArraySize
 
 	// Conveyor content is the Bitten people incubating
@@ -136,7 +138,7 @@ protected:
 	TObjectPtr<AMeshSynchronizer> MeshSynchronizer;
 
 	// Called when you win (no more zombies or bitten)
-	UFUNCTION(BlueprintImplementableEvent, category = "Gamestate")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, category = "Gamestate")
 	void Win();
 	
 	// Called when you lose (everyone is non-human non-bitten)

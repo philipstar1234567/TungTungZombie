@@ -491,7 +491,7 @@ void ASimulationController::Tick(float DeltaTime)
         {
             Win();
         }
-        if (Susceptible <= 0 && Bitten <= 0)
+        if (Susceptible <= 0)
         {
             Lose();
         }
