@@ -142,6 +142,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chart Data")
 	UDataTable* AllSongCharts;
 
+	static ASimulationController* Get();
+
+	void ApplyCure (const float& AmountToCure);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Dance Floor")
 	class AStaticMeshActor* FloorToPutZombiesOn;

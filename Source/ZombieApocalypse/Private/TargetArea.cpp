@@ -5,6 +5,7 @@
 #include "NoteActor.h"
 #include "Components/BoxComponent.h"
 #include "Engine/Note.h"
+#include "ZombieApocalypse/SimulationController.h"
 
 // Sets default values
 ATargetArea::ATargetArea()
@@ -78,7 +79,7 @@ void ATargetArea::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 			OverlappingNote = Cast<ANoteActor>(OtherActor);
 			
 
-			
+
 			
 		}
 	}
@@ -145,6 +146,10 @@ void ATargetArea::OnHitKeyPressed()
 		OverlappingNote->Destroy();
 		
 			// eliminate the note actor on key press during overlap
+		if(God)
+		{
+			God->ApplyCure(1.f);
+		}
 	}
 }
 

@@ -243,6 +243,46 @@ void ASimulationController::SetMeshSynchronizer(AMeshSynchronizer* InMeshSynchro
     
 }
 
+void ASimulationController::ApplyCure(const float& AmountToCure)
+{
+    // 1. Safety check
+    if (AmountToCure <= 0.f || conveyor.empty()) return;
+
+    float ActuallyCuredCount = 0.f;
+    float RemainingCurePower = AmountToCure;
+
+    // 2. Iterate through the conveyor batches (Bitten people)
+    // You can iterate forwards (curing those bitten longest ago) 
+    // or backwards (curing those just bitten). 
+    // Here we iterate normally:
+    for (ConveyorBatch& Batch : conveyor)
+    {
+        if (RemainingCurePower <= 0.f) break;
+
+        if (Batch.amountOfPeople > 0.f)
+        {
+            // Determine how many we can cure from this specific batch
+            float NumCuredFromBatch = std::min(Batch.amountOfPeople, RemainingCurePower);
+
+            // Remove from Batch
+            Batch.amountOfPeople -= NumCuredFromBatch;
+
+            // Track totals
+            ActuallyCuredCount += NumCuredFromBatch;
+            RemainingCurePower -= NumCuredFromBatch;
+        }
+    }
+
+    // 3. Add the cured people back to the Susceptible stock
+    Susceptible += ActuallyCuredCount;
+
+    // Optional: Log the result
+    if (ActuallyCuredCount > 0.f)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Cured %f people! They returned to Susceptible."), ActuallyCuredCount);
+    }
+}
+
 void ASimulationController::SpawningCurtainPullForTheActorsPresentingTheZombieSim()
 {
     auto CalculateLocalSpawnPointDistribution = [](int NumPoints, FVector LocalMin, FVector LocalMax)
