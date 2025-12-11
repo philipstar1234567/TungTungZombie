@@ -90,9 +90,15 @@ void ANoteSpawner::Tick(float DeltaTime)
 	//	}
 	//}
 
+	if (!AudioComp->IsPlaying()) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Song finished"));
+		bIsSongPlaying = false;
+	}
+
 	if (!bIsSongPlaying || !ClockHandle)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("No song || No clock"));
+		UE_LOG(LogTemp, Warning, TEXT("No song || No clock"));
 		return;
 	}
 

@@ -62,7 +62,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Rhythm")
 	int BPM;
 
-	UPROPERTY(VisibleAnywhere, Category = "Rhythm")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rhythm")
 	bool bIsSongPlaying{ false };
 
 	int LastTick;
