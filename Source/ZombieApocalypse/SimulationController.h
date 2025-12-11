@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+PRAGMA_PUSH_PLATFORM_DEFAULT_PACKING
 #include <vector>
+PRAGMA_POP_PLATFORM_DEFAULT_PACKING
 #include "Engine/DataTable.h"
 #include "SimulationController.generated.h"
 

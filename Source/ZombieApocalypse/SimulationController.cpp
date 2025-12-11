@@ -2,6 +2,7 @@
 
 #include "SimulationController.h"
 #include "GameFramework/Actor.h"
+PRAGMA_PUSH_PLATFORM_DEFAULT_PACKING
 #include <iostream>
 #include  <cmath>
 #include <iomanip>
@@ -10,7 +11,7 @@
 #include <vector>
 #include <regex>
 #include <sstream>
-
+PRAGMA_POP_PLATFORM_DEFAULT_PACKING
 #include "HumanActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMeshActor.h"

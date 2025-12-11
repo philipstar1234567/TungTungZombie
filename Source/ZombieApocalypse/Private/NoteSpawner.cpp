@@ -226,7 +226,7 @@ void ANoteSpawner::PlaySong()
 
 	// This function creates a component configured for 2D UI sound (No 3D attenuation, No silence)
 	// It does NOT start playing automatically.
-	AudioComp = UGameplayStatics::CreateSound2D(World, SoundAsset, 1.0f, 1.0f, 0.0f, nullptr, true, false);
+	AudioComp = UGameplayStatics::CreateSound2D(World, SoundAsset, 1.0f, 1.0f, 0.0f, nullptr, false, false);
 
 	if (!AudioComp)
 	{
@@ -241,7 +241,7 @@ void ANoteSpawner::PlaySong()
 	FQuartzClockSettings ClockSettings;
 	ClockSettings.TimeSignature.NumBeats = 4;
 	ClockSettings.TimeSignature.BeatType = EQuartzTimeSignatureQuantization::QuarterNote;
-	ClockSettings.bIgnoreLevelChange = true;
+	ClockSettings.bIgnoreLevelChange = false;
 
 	ClockHandle = QuartzSubsystem->CreateNewClock(World, ClockName, ClockSettings);
 
