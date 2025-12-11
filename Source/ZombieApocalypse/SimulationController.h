@@ -135,6 +135,14 @@ protected:
 	UPROPERTY()
 	TObjectPtr<AMeshSynchronizer> MeshSynchronizer;
 
+	// Called when you win (no more zombies or bitten)
+	UFUNCTION(BlueprintImplementableEvent, category = "Gamestate")
+	void Win();
+	
+	// Called when you lose (everyone is non-human non-bitten)
+	UFUNCTION(BlueprintImplementableEvent, category = "Gamestate")
+	void Lose();
+	
 public:
 	void SetMeshSynchronizer(AMeshSynchronizer* InMeshSynchronizer);
 	
