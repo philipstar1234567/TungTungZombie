@@ -346,7 +346,7 @@ void ASimulationController::Tick(float DeltaTime)
     if (AccumulatedTime >= SimulationStepTime)
     {
         AccumulatedTime = 0.f; // Reset accumulator
-        UE_LOG(LogTemp, Log, TEXT("SimulationStep"));
+        //UE_LOG(LogTemp, Log, TEXT("SimulationStep"));
         
        
         
@@ -434,7 +434,8 @@ void ASimulationController::Tick(float DeltaTime)
         // float Susceptible_Population = floor(Susceptible);
         // float Zombie_Population = floor(Zombies);
 
-        std::cout << "Susceptible: " << Susceptible << ", Bitten: " << Bitten << ", Zombies: " << Zombies << "\n";
+        UE_LOG(LogTemp, Log, TEXT("Susceptible: %d; Bitten: %d; Zombies: %d"), Susceptible, Bitten, Zombies);
+        //std::cout << "Susceptible: " << Susceptible << ", Bitten: " << Bitten << ", Zombies: " << Zombies << "\n";
 
         // Write row for t+DT
         //write_row(t + (int)DT, csvFile);
