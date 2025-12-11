@@ -71,4 +71,9 @@ public:
 	//
 	//
 	// void OnLHitKeyPressed();
+protected:
+
+	/** Do NOT forget to set this in the editor. */
+	UPROPERTY(EditInstanceOnly, Category = "Talking To God")
+	class ASimulationController* God;
 };
