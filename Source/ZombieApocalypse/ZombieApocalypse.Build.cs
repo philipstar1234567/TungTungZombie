@@ -8,9 +8,9 @@ public class ZombieApocalypse : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AudioMixer", "AudioExtensions", "AudioPlatformConfiguration"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "EnhancedInput", "AudioMixer", "AudioExtensions", "AudioPlatformConfiguration"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "AudioMixer", "AudioExtensions", "AudioPlatformConfiguration"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "AudioMixer", "AudioExtensions", "AudioPlatformConfiguration"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

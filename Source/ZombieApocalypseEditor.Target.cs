@@ -10,6 +10,6 @@ public class ZombieApocalypseEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V6;
 
-		ExtraModuleNames.AddRange( new string[] { "ZombieApocalypse" } );
+		ExtraModuleNames.AddRange( new string[] {  } );
 	}
 }

@@ -44,7 +44,7 @@ public:
 	/** Songs will only play if their file name matches exactly the one on the data table. */
 	void PlaySong();
 
-	UPROPERTY(EditAnywhere, Category = "Rhythm")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rhythm")
 	FName SongName;
 
 	UPROPERTY(VisibleAnywhere, Category = "Rhythm")

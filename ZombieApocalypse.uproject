@@ -22,13 +22,6 @@
     {
       "Name": "AIAssistant",
       "Enabled": true
-    },
-    {
-      "Name": "VisualStudioTools",
-      "Enabled": true,
-      "SupportedTargetPlatforms": [
-        "Win64"
-      ]
     }
   ],
   "TargetPlatforms": [

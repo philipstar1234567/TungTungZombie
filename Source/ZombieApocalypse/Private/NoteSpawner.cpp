@@ -152,6 +152,31 @@ void ANoteSpawner::BeginPlay()
 	// Create a unique name for this clock so it doesn't conflict with other music
 	ClockName = FName(*FString::Printf(TEXT("RhythmClock_%s"), *GetName()));
 
+	// 1. Create the Array (Make Array)
+	// We use the TEXT() macro to ensure strings work on all platforms
+	TArray<FName> SongList = {
+		TEXT("Zombiesong"),
+		TEXT("La Femme"),
+		TEXT("Deutschland")
+	};
+
+	// 2. Pick a Random Index
+	// FMath::RandRange is the C++ version of the "Random Integer" node
+	if (SongList.Num() > 0)
+	{
+		int32 RandomIndex = FMath::RandRange(0, SongList.Num() - 1);
+
+		// 3. Set the Variable
+		SongName = SongList[RandomIndex];
+	}
+
+	// Optional: Log it to screen to verify it works
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+			FString::Printf(TEXT("Selected Song: %s"), *SongName.ToString()));
+	}
+
 	InitialiseSongState();
 }
 

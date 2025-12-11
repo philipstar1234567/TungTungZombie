@@ -10,6 +10,6 @@ public class ZombieApocalypseTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V6;
 
-		ExtraModuleNames.AddRange( new string[] { "ZombieApocalypse" } );
+		ExtraModuleNames.AddRange( new string[] { } );
 	}
 }
